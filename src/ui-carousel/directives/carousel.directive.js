@@ -28,6 +28,7 @@ angular.module('ui.carousel.directives')
         onBeforeChange: '&',
         onAfterChange: '&',
         onInit: '&',
+        onItemClick: '&'
       },
       link($scope, el) {
         const template = angular.element(
@@ -53,6 +54,15 @@ angular.module('ui.carousel.directives')
 
         const compiledElement = $compile(templateInstance)($scope);
         el.addClass('ui-carousel').html('').append(compiledElement);
+
+        $scope.$watch(
+          function () {
+            return [el[0].offsetWidth, el[0].offsetHeight].join('x');
+          },
+          function (value) {
+            $scope.doRefresh();
+          }
+        )
       },
 
       controller: 'CarouselController',

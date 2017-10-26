@@ -383,6 +383,10 @@ angular.module('ui.carousel.controllers')
       return deferred.promise;
     };
 
+    this.handleItemClick= function (item) {
+      this.onItemClick({item: item});
+    };
+
     /**
      * correctTrack
      * @description correct track after move to animSlide we have to move track
@@ -509,7 +513,7 @@ angular.module('ui.carousel.controllers')
       const dots = Math.ceil(this.slides.length / this.options.slidesToScroll);
 
       let res = [];
-      for (let i = 0; i < dots; i++) {
+      for (let i = 0; i < dots.length; i++) {
         res.push(i);
       }
       return res;
@@ -590,11 +594,27 @@ angular.module('ui.carousel.controllers')
       if (this.currentSlide > slides.length - 1) {
         this.currentSlide = slides.length - 1;
       }
+      //Refer : https://github.com/mihnsen/ui-carousel/issues/10
 
+      this.initOptions();
+      this.initRanges();
+      this.setProps();
       this.setupInfinite();
       this.refreshCarousel();
-    });
+    }, true);
 
+    var _self=this;
+    var _about_to_refresh= false;
+    $scope.doRefresh= function () {
+      if (_about_to_refresh){
+        return;
+      }
+      _about_to_refresh= true;
+        $timeout(function () {
+          _self.refreshCarousel();
+          _about_to_refresh= false;
+        }, 50);
+    };
     /**
      * update when resize
      *
