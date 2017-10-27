@@ -1,19 +1,19 @@
 {
   "name": "angular-ui-carousel",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "author": {
-    "name": "mihnsen",
-    "email": "minhnt.hut@gmail.com"
+    "name": "Bigbasket",
+    "email": "balaji.doniparthi@bigbasket.com"
   },
   "description": "A simple, lightweight carousel for angularjs",
   "license": "MIT License",
-  "homepage": "https://mihnsen.github.io/ui-carousel/",
+  "homepage": "https://github.com/BigBasket/ui-carousel/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mihnsen/ui-carousel.git"
+    "url": "https://github.com/BigBasket/ui-carousel.git"
   },
   "bugs": {
-    "url": "https://github.com/mihnsen/ui-carousel/issues"
+    "url": "https://github.com/BigBasket/ui-carousel/issues"
   },
   "scripts": {
     "test": "gulp test"
