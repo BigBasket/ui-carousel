@@ -1,10 +1,10 @@
 {
-  "name": "angular-ui-carousel",
-  "version": "0.1.10",
+  "name": "bb-angular-ui-carousel",
+  "version": "1.0.0",
   "authors": [
     {
-      "name": "mihnsen",
-      "email": "minhnt.hut@gmail.com"
+      "name": "Bigbasket",
+      "email": "balaji.doniparthi@bigbasket.com"
     }
   ],
   "description": "A simple, lightweight carousel for angularjs.",
@@ -32,7 +32,7 @@
     "**/.*"
   ],
   "license": "MIT",
-  "homepage": "https://mihnsen.github.com/ui-carousel",
+  "homepage": "https://github.com/BigBasket/ui-carousel",
   "dependencies": {},
   "devDependencies": {
     "angular-mocks": ">=1.2.0",
