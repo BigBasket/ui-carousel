@@ -603,6 +603,13 @@ angular.module('ui.carousel.controllers')
       this.refreshCarousel();
     }, true);
 
+    $scope.$watch('ctrl.refreshFlag', function(newVal, oldVal){
+        console.log("refreshFlag watch", newVal, oldVal);
+        if (newVal !== oldVal){
+          $scope.doRefresh();
+        }
+    }, true);
+
     var _self=this;
     var _about_to_refresh= false;
     $scope.doRefresh= function () {

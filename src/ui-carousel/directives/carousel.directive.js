@@ -23,6 +23,7 @@ angular.module('ui.carousel.directives')
         initialSlide: '=?',
         visibleNext: '=?',
         visiblePrev: '=?',
+        refreshFlag: '=?',
 
         // Method
         onBeforeChange: '&',
@@ -62,7 +63,16 @@ angular.module('ui.carousel.directives')
           function (value) {
             $scope.doRefresh();
           }
-        )
+        );
+
+        $scope.$watch(
+          function () {
+            return [el[0].parentNode.offsetWidth, el[0].parentNode.offsetHeight].join('x');
+          },
+          function (value) {
+            $scope.doRefresh();
+          }
+      	);
       },
 
       controller: 'CarouselController',
