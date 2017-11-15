@@ -18,120 +18,6 @@
 })(angular);
 'use strict';
 
-angular.module('ui.carousel.directives').directive('uiCarousel', ['$compile', '$templateCache', '$sce', function ($compile, $templateCache, $sce) {
-
-  return { restrict: 'AE',
-    bindToController: true,
-    scope: {
-      name: '=?',
-      slides: '=',
-      show: '=?slidesToShow',
-      scroll: '=?slidesToScroll',
-      classes: '@',
-      fade: '=?',
-      onChange: '=?',
-      disableArrow: '=?',
-      autoplay: '=?',
-      autoplaySpeed: '=?',
-      cssEase: '=?',
-      speed: '=?',
-      infinite: '=?',
-      arrows: '=?',
-      dots: '=?',
-      initialSlide: '=?',
-      visibleNext: '=?',
-      visiblePrev: '=?',
-
-      // Method
-      onBeforeChange: '&',
-      onAfterChange: '&',
-      onInit: '&',
-      onItemClick: '&'
-    },
-    link: function link($scope, el) {
-      var template = angular.element($templateCache.get('ui-carousel/carousel.template.html'));
-
-      // dynamic injections to override the inner layers' components
-      var injectComponentMap = {
-        'carousel-item': '.carousel-item',
-        'carousel-prev': '.carousel-prev',
-        'carousel-next': '.carousel-next'
-      };
-
-      var templateInstance = template.clone();
-      angular.forEach(injectComponentMap, function (innerSelector, outerSelector) {
-        var outerElement = el[0].querySelector(outerSelector);
-        if (outerElement) {
-          angular.element(templateInstance[0].querySelector(innerSelector)).html(outerElement.innerHTML);
-        }
-      });
-
-      var compiledElement = $compile(templateInstance)($scope);
-      el.addClass('ui-carousel').html('').append(compiledElement);
-
-      $scope.$watch(function () {
-        return [el[0].offsetWidth, el[0].offsetHeight].join('x');
-      }, function (value) {
-        $scope.doRefresh();
-      });
-    },
-
-
-    controller: 'CarouselController',
-    controllerAs: 'ctrl'
-  };
-}]);
-'use strict';
-
-angular.module('ui.carousel.providers').provider('Carousel', function () {
-  var _this = this;
-
-  this.options = {
-    // Init like Slick carousel
-    // XXX Should be revised
-    arrows: true,
-    autoplay: false,
-    autoplaySpeed: 3000,
-    cssEase: 'ease',
-    dots: false,
-
-    easing: 'linear',
-    fade: false,
-    infinite: true,
-    initialSlide: 0,
-
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    speed: 500,
-
-    visiblePrev: false,
-    visibleNext: false,
-
-    // Not available right now
-    draggable: true,
-
-    lazyLoad: 'ondemand',
-
-    swipe: true,
-    swipeToSlide: false,
-    touchMove: true,
-
-    vertical: false,
-    verticalSwiping: false
-  };
-  this.$get = [function () {
-    return {
-      setOptions: function setOptions(options) {
-        _this.options = angular.extend(_this.options, options);
-      },
-      getOptions: function getOptions() {
-        return _this.options;
-      }
-    };
-  }];
-});
-'use strict';
-
 /**
  * angular-ui-carousel
  * for example:
@@ -714,6 +600,13 @@ angular.module('ui.carousel.controllers').controller('CarouselController', ['$sc
     _this.refreshCarousel();
   }, true);
 
+  $scope.$watch('ctrl.refreshFlag', function (newVal, oldVal) {
+    console.log("refreshFlag watch", newVal, oldVal);
+    if (newVal !== oldVal) {
+      $scope.doRefresh();
+    }
+  }, true);
+
   var _self = this;
   var _about_to_refresh = false;
   $scope.doRefresh = function () {
@@ -750,6 +643,127 @@ angular.module('ui.carousel.controllers').controller('CarouselController', ['$sc
     this.$onInit();
   }
 }]);
+'use strict';
+
+angular.module('ui.carousel.directives').directive('uiCarousel', ['$compile', '$templateCache', '$sce', function ($compile, $templateCache, $sce) {
+
+  return { restrict: 'AE',
+    bindToController: true,
+    scope: {
+      name: '=?',
+      slides: '=',
+      show: '=?slidesToShow',
+      scroll: '=?slidesToScroll',
+      classes: '@',
+      fade: '=?',
+      onChange: '=?',
+      disableArrow: '=?',
+      autoplay: '=?',
+      autoplaySpeed: '=?',
+      cssEase: '=?',
+      speed: '=?',
+      infinite: '=?',
+      arrows: '=?',
+      dots: '=?',
+      initialSlide: '=?',
+      visibleNext: '=?',
+      visiblePrev: '=?',
+      refreshFlag: '=?',
+
+      // Method
+      onBeforeChange: '&',
+      onAfterChange: '&',
+      onInit: '&',
+      onItemClick: '&'
+    },
+    link: function link($scope, el) {
+      var template = angular.element($templateCache.get('ui-carousel/carousel.template.html'));
+
+      // dynamic injections to override the inner layers' components
+      var injectComponentMap = {
+        'carousel-item': '.carousel-item',
+        'carousel-prev': '.carousel-prev',
+        'carousel-next': '.carousel-next'
+      };
+
+      var templateInstance = template.clone();
+      angular.forEach(injectComponentMap, function (innerSelector, outerSelector) {
+        var outerElement = el[0].querySelector(outerSelector);
+        if (outerElement) {
+          angular.element(templateInstance[0].querySelector(innerSelector)).html(outerElement.innerHTML);
+        }
+      });
+
+      var compiledElement = $compile(templateInstance)($scope);
+      el.addClass('ui-carousel').html('').append(compiledElement);
+
+      $scope.$watch(function () {
+        return [el[0].offsetWidth, el[0].offsetHeight].join('x');
+      }, function (value) {
+        $scope.doRefresh();
+      });
+
+      $scope.$watch(function () {
+        return [el[0].parentNode.offsetWidth, el[0].parentNode.offsetHeight].join('x');
+      }, function (value) {
+        $scope.doRefresh();
+      });
+    },
+
+
+    controller: 'CarouselController',
+    controllerAs: 'ctrl'
+  };
+}]);
+'use strict';
+
+angular.module('ui.carousel.providers').provider('Carousel', function () {
+  var _this = this;
+
+  this.options = {
+    // Init like Slick carousel
+    // XXX Should be revised
+    arrows: true,
+    autoplay: false,
+    autoplaySpeed: 3000,
+    cssEase: 'ease',
+    dots: false,
+
+    easing: 'linear',
+    fade: false,
+    infinite: true,
+    initialSlide: 0,
+
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    speed: 500,
+
+    visiblePrev: false,
+    visibleNext: false,
+
+    // Not available right now
+    draggable: true,
+
+    lazyLoad: 'ondemand',
+
+    swipe: true,
+    swipeToSlide: false,
+    touchMove: true,
+
+    vertical: false,
+    verticalSwiping: false
+  };
+  this.$get = [function () {
+    return {
+      setOptions: function setOptions(options) {
+        _this.options = angular.extend(_this.options, options);
+      },
+      getOptions: function getOptions() {
+        return _this.options;
+      }
+    };
+  }];
+});
 'use strict';
 
 (function (module) {
