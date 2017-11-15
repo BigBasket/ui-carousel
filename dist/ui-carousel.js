@@ -617,7 +617,7 @@ angular.module('ui.carousel.controllers').controller('CarouselController', ['$sc
     $timeout(function () {
       _self.refreshCarousel();
       _about_to_refresh = false;
-    }, 50);
+    }, 5);
   };
   /**
    * update when resize
