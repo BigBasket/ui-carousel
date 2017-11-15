@@ -604,7 +604,6 @@ angular.module('ui.carousel.controllers')
     }, true);
 
     $scope.$watch('ctrl.refreshFlag', function(newVal, oldVal){
-        console.log("refreshFlag watch", newVal, oldVal);
         if (newVal !== oldVal){
           $scope.doRefresh();
         }
@@ -620,7 +619,7 @@ angular.module('ui.carousel.controllers')
         $timeout(function () {
           _self.refreshCarousel();
           _about_to_refresh= false;
-        }, 50);
+        }, 2);
     };
     /**
      * update when resize
